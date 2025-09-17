@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Погода в Усть-Илимске | Real-time</title>
+    <title>Погода в Братске | Актуальный прогноз</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #1a2980;
             --secondary-color: #26d0ce;
+            --accent-color: #ff8c00;
             --text-color: #333;
-            --card-bg: rgba(255, 255, 255, 0.9);
+            --light-text: #fff;
+            --card-bg: rgba(255, 255, 255, 0.95);
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
         
@@ -23,7 +25,7 @@
         
         body {
             background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
-            color: white;
+            color: var(--light-text);
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -50,6 +52,12 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
         .last-updated {
             font-size: 1rem;
             opacity: 0.9;
@@ -69,115 +77,107 @@
             100% { opacity: 1; }
         }
         
-        .weather-container {
+        .weather-content {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 25px;
+            gap: 30px;
             margin-bottom: 40px;
+            width: 100%;
         }
         
-        .current-weather {
+        .info-card {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             width: 100%;
-            max-width: 500px;
-            text-align: center;
+            max-width: 600px;
             box-shadow: var(--shadow);
             color: var(--text-color);
         }
         
-        .location {
+        .card-title {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
             margin-bottom: 20px;
             color: var(--primary-color);
-        }
-        
-        .temp {
-            font-size: 4rem;
-            font-weight: bold;
-            margin: 20px 0;
-            color: var(--primary-color);
-        }
-        
-        .weather-icon {
-            font-size: 5rem;
-            margin: 15px 0;
-            color: #ff8c00;
-        }
-        
-        .weather-desc {
             font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--primary-color);
+            font-weight: bold;
         }
         
-        .weather-details {
+        .informer-container {
+            width: 100%;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .additional-info {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: var(--shadow);
+            color: var(--text-color);
+        }
+        
+        .info-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         
-        .detail {
+        .info-item {
             background: rgba(38, 208, 206, 0.1);
             padding: 15px;
             border-radius: 12px;
             text-align: center;
         }
         
-        .detail-value {
+        .info-value {
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 5px;
             color: var(--primary-color);
         }
         
-        .detail-label {
+        .info-label {
             font-size: 0.9rem;
             opacity: 0.8;
-            color: var(--text-color);
         }
         
-        .forecast {
+        .city-facts {
+            margin-top: 25px;
+        }
+        
+        .city-facts h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .facts-list {
+            list-style-type: none;
+        }
+        
+        .facts-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             display: flex;
-            overflow-x: auto;
-            gap: 20px;
-            padding: 15px 5px;
-            margin-bottom: 30px;
-            width: 100%;
+            align-items: center;
+            gap: 10px;
         }
         
-        .forecast-day {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            min-width: 150px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            color: var(--text-color);
+        .facts-list li:last-child {
+            border-bottom: none;
         }
         
-        .forecast-date {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-        
-        .forecast-temp {
-            font-size: 1.8rem;
-            margin: 10px 0;
-            color: var(--primary-color);
-        }
-        
-        .forecast-icon {
-            font-size: 2.5rem;
-            margin: 10px 0;
-            color: #ff8c00;
+        .facts-list i {
+            color: var(--accent-color);
         }
         
         .refresh-container {
@@ -186,7 +186,7 @@
         }
         
         .refresh-btn {
-            background: white;
+            background: var(--light-text);
             color: var(--primary-color);
             border: none;
             padding: 12px 25px;
@@ -216,6 +216,7 @@
             opacity: 0.7;
             font-size: 0.9rem;
             margin-top: auto;
+            width: 100%;
         }
         
         @media (max-width: 768px) {
@@ -223,22 +224,18 @@
                 font-size: 2rem;
             }
             
-            .temp {
-                font-size: 3rem;
-            }
-            
-            .weather-details {
-                grid-template-columns: 1fr;
-            }
-            
-            .forecast {
+            .weather-content {
                 flex-direction: column;
                 align-items: center;
             }
             
-            .forecast-day {
+            .info-card, .additional-info {
                 width: 100%;
-                max-width: 300px;
+                max-width: 100%;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -261,158 +258,136 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        .note {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-cloud-sun"></i> Погода в Усть-Илимске</h1>
+            <h1><i class="fas fa-cloud-sun"></i> Погода в Братске</h1>
+            <div class="subtitle">Актуальный прогноз на сегодня и ближайшие дни</div>
             <div class="last-updated">
                 <i class="fas fa-sync-alt blink"></i>
-                <span id="update-time">Обновление...</span>
+                <span id="update-time">Данные обновляются автоматически</span>
             </div>
         </header>
         
         <div class="refresh-container">
-            <button class="refresh-btn" id="refresh-btn">
-                <i class="fas fa-sync-alt"></i> Обновить сейчас
+            <button class="refresh-btn" id="refresh-btn" onclick="location.reload()">
+                <i class="fas fa-sync-alt"></i> Обновить страницу
             </button>
         </div>
         
-        <div class="weather-container">
-            <div class="current-weather">
-                <div class="location">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h2>Усть-Илимск, Иркутская область</h2>
+        <div class="weather-content">
+            <div class="info-card">
+                <div class="card-title">
+                    <i class="fas fa-temperature-low"></i>
+                    <h2>Прогноз погоды в Братске</h2>
+                </div>
+                <div class="informer-container">
+                    <div id="2a32c8fb9c3d53263a8027b4ccadd546" class="ww-informers-box-854753">
+                        <p class="ww-informers-box-854754">
+                            <a href="https://world-weather.ru/pogoda/russia/bratsk/14days/">world-weather.ru</a><br>
+                            <a href="https://world-weather.ru/">world-weather.ru</a>
+                        </p>
+                    </div>
+                    <script async type="text/javascript" charset="utf-8" 
+                            src="https://world-weather.ru/wwinformer.php?userid=2a32c8fb9c3d53263a8027b4ccadd546"></script>
+                    <style>
+                        .ww-informers-box-854754 {
+                            -webkit-animation-name: ww-informers54;
+                            animation-name: ww-informers54;
+                            -webkit-animation-duration: 1.5s;
+                            animation-duration: 1.5s;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            -o-text-overflow: ellipsis;
+                            text-overflow: ellipsis;
+                            font-size: 12px;
+                            font-family: Arial;
+                            line-height: 18px;
+                            text-align: center;
+                        }
+                        
+                        @-webkit-keyframes ww-informers54 {
+                            0%, 80% { opacity: 0; }
+                            100% { opacity: 1; }
+                        }
+                        
+                        @keyframes ww-informers54 {
+                            0%, 80% { opacity: 0; }
+                            100% { opacity: 1; }
+                        }
+                        
+                        /* Кастомизация информера */
+                        .ww-informers-box-854753 {
+                            width: 100%;
+                            border-radius: 10px;
+                            overflow: hidden;
+                        }
+                    </style>
+                </div>
+                <div class="note">
+                    Информер предоставлен сайтом <a href="https://world-weather.ru/">world-weather.ru</a>
+                </div>
+            </div>
+            
+            <div class="additional-info">
+                <div class="card-title">
+                    <i class="fas fa-info-circle"></i>
+                    <h2>Дополнительная информация</h2>
                 </div>
                 
-                <div class="loading" id="weather-loading">
-                    <div class="spinner"></div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-value" id="current-temp">-7°C</div>
+                        <div class="info-label">Текущая температура</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-value" id="feels-like">-12°C</div>
+                        <div class="info-label">Ощущается как</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-value" id="humidity">78%</div>
+                        <div class="info-label">Влажность</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-value" id="wind">4 м/с</div>
+                        <div class="info-label">Ветер</div>
+                    </div>
                 </div>
                 
-                <div id="weather-content" style="display: none;">
-                    <div class="weather-icon" id="weather-icon">
-                        <i class="fas fa-sun"></i>
-                    </div>
-                    <div class="temp" id="current-temp">-5°C</div>
-                    <div class="weather-desc" id="weather-desc">Солнечно</div>
-                    
-                    <div class="weather-details">
-                        <div class="detail">
-                            <div class="detail-value" id="feels-like">-8°C</div>
-                            <div class="detail-label">Ощущается как</div>
-                        </div>
-                        <div class="detail">
-                            <div class="detail-value" id="humidity">85%</div>
-                            <div class="detail-label">Влажность</div>
-                        </div>
-                        <div class="detail">
-                            <div class="detail-value" id="wind">3 м/с</div>
-                            <div class="detail-label">Скорость ветра</div>
-                        </div>
-                        <div class="detail">
-                            <div class="detail-value" id="pressure">755 мм</div>
-                            <div class="detail-label">Атмосферное давление</div>
-                        </div>
-                    </div>
+                <div class="city-facts">
+                    <h3><i class="fas fa-city"></i> Интересное о Братске</h3>
+                    <ul class="facts-list">
+                        <li><i class="fas fa-temperature-low"></i> Среднегодовая температура: -2°C</li>
+                        <li><i class="fas fa-sun"></i> Солнечных дней в году: около 100</li>
+                        <li><i class="fas fa-calendar-alt"></i> Холодный период: с октября по апрель</li>
+                        <li><i class="fas fa-water"></i> Рядом с городом - Братское водохранилище</li>
+                    </ul>
                 </div>
             </div>
         </div>
         
-        <h2 style="text-align: center; margin-bottom: 20px; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">
-            <i class="fas fa-calendar-alt"></i> Прогноз на 5 дней
-        </h2>
-        
-        <div class="loading" id="forecast-loading">
-            <div class="spinner"></div>
-        </div>
-        
-        <div class="forecast" id="forecast" style="display: none;">
-            <!-- Прогноз будет добавлен через JavaScript -->
-        </div>
-        
         <footer>
-            <p>Данные о погоде обновляются каждые 10 минут</p>
-            <p>© 2023 Погода в Усть-Илимске | Реальное время</p>
+            <p>Данные о погоде предоставлены сервисом world-weather.ru</p>
+            <p>© 2023 Погода в Братске | <span id="current-year"></span></p>
         </footer>
     </div>
 
     <script>
-        // API ключ (в реальном проекте нужно хранить на сервере)
-        const API_KEY = 'your_openweather_api_key_here';
-        const CITY = 'Ust-Ilimsk';
+        // Устанавливаем текущий год в футере
+        document.getElementById('current-year').textContent = new Date().getFullYear();
         
-        // Элементы DOM
-        const updateTimeElement = document.getElementById('update-time');
-        const refreshBtn = document.getElementById('refresh-btn');
-        const weatherLoading = document.getElementById('weather-loading');
-        const weatherContent = document.getElementById('weather-content');
-        const forecastLoading = document.getElementById('forecast-loading');
-        const forecastElement = document.getElementById('forecast');
-        
-        // Функция для получения иконки погоды
-        function getWeatherIcon(iconCode) {
-            const iconMap = {
-                '01d': 'fas fa-sun',
-                '01n': 'fas fa-moon',
-                '02d': 'fas fa-cloud-sun',
-                '02n': 'fas fa-cloud-moon',
-                '03d': 'fas fa-cloud',
-                '03n': 'fas fa-cloud',
-                '04d': 'fas fa-cloud',
-                '04n': 'fas fa-cloud',
-                '09d': 'fas fa-cloud-showers-heavy',
-                '09n': 'fas fa-cloud-showers-heavy',
-                '10d': 'fas fa-cloud-sun-rain',
-                '10n': 'fas fa-cloud-moon-rain',
-                '11d': 'fas fa-bolt',
-                '11n': 'fas fa-bolt',
-                '13d': 'fas fa-snowflake',
-                '13n': 'fas fa-snowflake',
-                '50d': 'fas fa-smog',
-                '50n': 'fas fa-smog'
-            };
-            
-            return iconMap[iconCode] || 'fas fa-cloud';
-        }
-        
-        // Функция для получения описания погоды на русском
-        function getWeatherDescription(description) {
-            const descriptionMap = {
-                'clear sky': 'Ясно',
-                'few clouds': 'Небольшая облачность',
-                'scattered clouds': 'Рассеянные облака',
-                'broken clouds': 'Облачно с прояснениями',
-                'overcast clouds': 'Пасмурно',
-                'light rain': 'Небольшой дождь',
-                'moderate rain': 'Умеренный дождь',
-                'heavy intensity rain': 'Сильный дождь',
-                'very heavy rain': 'Очень сильный дождь',
-                'extreme rain': 'Экстремальный дождь',
-                'freezing rain': 'Ледяной дождь',
-                'light snow': 'Небольшой снег',
-                'snow': 'Снег',
-                'heavy snow': 'Сильный снегопад',
-                'sleet': 'Мокрый снег',
-                'shower rain': 'Ливень',
-                'rain and snow': 'Дождь со снегом',
-                'thunderstorm': 'Гроза',
-                'thunderstorm with light rain': 'Гроза с небольшим дождём',
-                'thunderstorm with rain': 'Гроза с дождём',
-                'thunderstorm with heavy rain': 'Гроза с сильным дождём',
-                'mist': 'Лёгкий туман',
-                'smoke': 'Дымка',
-                'haze': 'Дымка',
-                'sand/dust whirls': 'Песчаные вихри',
-                'fog': 'Туман',
-                'sand': 'Песчаная буря',
-                'dust': 'Пыльная буря'
-            };
-            
-            return descriptionMap[description.toLowerCase()] || description;
-        }
-        
-        // Функция для обновления времени последнего обновления
+        // Обновляем время последнего обновления
         function updateLastUpdatedTime() {
             const now = new Date();
             const timeString = now.toLocaleTimeString('ru-RU', { 
@@ -420,114 +395,43 @@
                 minute: '2-digit',
                 second: '2-digit'
             });
-            updateTimeElement.textContent = `Последнее обновление: ${timeString}`;
+            const dateString = now.toLocaleDateString('ru-RU');
+            document.getElementById('update-time').textContent = `Последнее обновление: ${dateString} ${timeString}`;
         }
         
-        // Функция для получения данных о погоде
-        async function fetchWeatherData() {
-            try {
-                // Показываем индикаторы загрузки
-                weatherLoading.style.display = 'flex';
-                weatherContent.style.display = 'none';
-                forecastLoading.style.display = 'flex';
-                forecastElement.style.display = 'none';
-                
-                // В реальном приложении здесь будет fetch к API
-                // Для демонстрации используем случайные данные
-                
-                // Имитация задержки сети
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // Генерация случайных данных о погоде
-                const currentTemp = Math.floor(Math.random() * 40) - 15; // от -15 до +25
-                const conditions = ['clear sky', 'few clouds', 'scattered clouds', 'broken clouds', 'overcast clouds', 'light rain', 'moderate rain', 'snow'];
-                const currentCondition = conditions[Math.floor(Math.random() * conditions.length)];
-                const iconCode = currentCondition === 'clear sky' ? '01d' : 
-                                currentCondition === 'few clouds' ? '02d' :
-                                currentCondition.includes('cloud') ? '03d' :
-                                currentCondition.includes('rain') ? '10d' : '13d';
-                
-                const feelsLike = currentTemp - Math.floor(Math.random() * 5);
-                const humidity = Math.floor(Math.random() * 50) + 50; // 50-100%
-                const wind = Math.floor(Math.random() * 10) + 1; // 1-10 м/с
-                const pressure = Math.floor(Math.random() * 40) + 730; // 730-770 мм
-                
-                // Обновляем DOM
-                document.getElementById('weather-icon').innerHTML = `<i class="${getWeatherIcon(iconCode)}"></i>`;
-                document.getElementById('current-temp').textContent = `${currentTemp}°C`;
-                document.getElementById('weather-desc').textContent = getWeatherDescription(currentCondition);
-                document.getElementById('feels-like').textContent = `${feelsLike}°C`;
-                document.getElementById('humidity').textContent = `${humidity}%`;
-                document.getElementById('wind').textContent = `${wind} м/с`;
-                document.getElementById('pressure').textContent = `${pressure} мм`;
-                
-                // Генерация прогноза на 5 дней
-                generateForecast();
-                
-                // Обновляем время последнего обновления
-                updateLastUpdatedTime();
-                
-                // Показываем контент
-                weatherLoading.style.display = 'none';
-                weatherContent.style.display = 'block';
-                forecastLoading.style.display = 'none';
-                forecastElement.style.display = 'flex';
-                
-            } catch (error) {
-                console.error('Ошибка при получении данных о погоде:', error);
-                alert('Не удалось получить данные о погоде. Пожалуйста, попробуйте позже.');
-            }
-        }
-        
-       <div id="2a32c8fb9c3d53263a8027b4ccadd546" class="ww-informers-box-854753"><p class="ww-informers-box-854754"><a href="https://world-weather.ru/pogoda/russia/bratsk/14days/">world-weather.ru</a><br><a href="https://world-weather.ru/">world-weather.ru</a></p></div><script async type="text/javascript" charset="utf-8" src="https://world-weather.ru/wwinformer.php?userid=2a32c8fb9c3d53263a8027b4ccadd546"></script><style>.ww-informers-box-854754{-webkit-animation-name:ww-informers54;animation-name:ww-informers54;-webkit-animation-duration:1.5s;animation-duration:1.5s;white-space:nowrap;overflow:hidden;-o-text-overflow:ellipsis;text-overflow:ellipsis;font-size:12px;font-family:Arial;line-height:18px;text-align:center}@-webkit-keyframes ww-informers54{0%,80%{opacity:0}100%{opacity:1}}@keyframes ww-informers54{0%,80%{opacity:0}100%{opacity:1}}</style> = '';
-</div>
-
-    
-            const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-            const today = new Date();
-            const conditions = ['clear sky', 'few clouds', 'scattered clouds', 'broken clouds', 'overcast clouds', 'light rain', 'moderate rain', 'snow'];
+        // Функция для обновления дополнительной информации (в реальном приложении здесь был бы API)
+        function updateAdditionalInfo() {
+            // Генерация случайных данных для демонстрации
+            const currentTemp = Math.floor(Math.random() * 15) - 15; // от -15 до 0
+            const feelsLike = currentTemp - Math.floor(Math.random() * 5);
+            const humidity = Math.floor(Math.random() * 30) + 60; // 60-90%
+            const wind = Math.floor(Math.random() * 7) + 1; // 1-7 м/с
             
-            for (let i = 1; i <= 5; i++) {
-                const nextDay = new Date(today);
-                nextDay.setDate(today.getDate() + i);
-                
-                const dayName = daysOfWeek[nextDay.getDay()];
-                const date = nextDay.getDate();
-                const month = nextDay.getMonth() + 1;
-                
-                const forecastCondition = conditions[Math.floor(Math.random() * conditions.length)];
-                const iconCode = forecastCondition === 'clear sky' ? '01d' : 
-                                forecastCondition === 'few clouds' ? '02d' :
-                                forecastCondition.includes('cloud') ? '03d' :
-                                forecastCondition.includes('rain') ? '10d' : '13d';
-                
-                const minTemp = Math.floor(Math.random() * 15) - 15;
-                const maxTemp = minTemp + Math.floor(Math.random() * 10);
-                
-                const forecastDay = document.createElement('div');
-                forecastDay.className = 'forecast-day';
-                forecastDay.innerHTML = `
-                    <div class="forecast-date">${dayName}, ${date}.${month}</div>
-                    <div class="forecast-icon"><i class="${getWeatherIcon(iconCode)}"></i></div>
-                    <div class="forecast-temp">${maxTemp}° / ${minTemp}°</div>
-                    <div class="weather-desc">${getWeatherDescription(forecastCondition)}</div>
-                `;
-                
-                forecastContainer.appendChild(forecastDay);
-            }
+            document.getElementById('current-temp').textContent = `${currentTemp}°C`;
+            document.getElementById('feels-like').textContent = `${feelsLike}°C`;
+            document.getElementById('humidity').textContent = `${humidity}%`;
+            document.getElementById('wind').textContent = `${wind} м/с`;
         }
         
         // Инициализация при загрузке страницы
         window.onload = function() {
-            // Первоначальная загрузка данных
-            fetchWeatherData();
+            updateLastUpdatedTime();
+            updateAdditionalInfo();
             
-            // Обновляем данные каждые 10 минут
-            setInterval(fetchWeatherData, 10 * 60 * 1000);
+            // Обновляем время каждую минуту
+            setInterval(updateLastUpdatedTime, 60000);
             
-            // Обработчик для кнопки обновления
-            refreshBtn.addEventListener('click', fetchWeatherData);
+            // Обновляем дополнительные данные каждые 5 минут
+            setInterval(updateAdditionalInfo, 300000);
         };
+        
+        // Обработчик для кнопки обновления
+        document.getElementById('refresh-btn').addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Обновление...';
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        });
     </script>
 </body>
 </html>
